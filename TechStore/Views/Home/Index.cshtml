@@ -1,8 +1,31 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<TechStore.Models.CardViewModel>;
+
+@{
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="d-flex flex-column gap-5">
+    @await Html.PartialAsync("_HeroSection", new HeroSectionViewModel
+    {
+        Title = "Nuevo ingreso de laptops Gamer",
+        Description = "Domina cada fotograma con nuestra nueva gama de portátiles para videojuegos, equipados con GPU de última generación, frecuencias de actualización ultrarrápidas y un sistema de refrigeración avanzado diseñado para ofrecer el máximo rendimiento.",
+        CtaText = "Explorar nuevos modelos",
+        CtaAction = "Index",
+        CtaController = "Products",
+        HeroImageSrc = "/images/asus_laptops_hero.png"
+    })
+
+    <div class="container">
+        <div class="row text-center">
+            <h2 class="">Productos destacados</h2>
+        </div>
+        <div class="row mt-2">
+            <div class="d-flex flex-row gap-4 overflow-x-auto py-3">
+                @foreach (var product in Model)
+                {
+                    @await Html.PartialAsync("_PopularProductCard", product)
+                }
+            </div>
+        </div>
+    </div>
 </div>

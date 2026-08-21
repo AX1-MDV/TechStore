@@ -1,0 +1,19 @@
+﻿@model TechStore.Models.CardViewModel;
+
+<a asp-area="" asp-controller="Products" asp-action="Index" class="text-decoration-none">
+    <div class="product-card">
+        <span class="product-card-category">@Model.Category</span>
+        <img src="@Model.ImageUrl" class="product-card-img" alt="@Model.Title">
+        <div class="product-card-body">
+            <div class="d-flex flex-row justify-content-between align-items-center">
+                <h5 class="product-card-title brand-font">@Model.Title</h5>
+                <span class="product-card-state-tag @(Model.State == "Disponible" ? "product-tag-available" : "product-tag-not-available")">@Model.State</span>
+            </div>
+            <p class="product-card-text">@Model.Description</p>
+            <div class="d-flex flex-row justify-content-between align-items-center">
+                <span class="product-card-price">$@Model.Price</span>
+                <span class="product-card-stock">@Model.Stock Disponibles</span>
+            </div>
+        </div>
+    </div>
+</a>
