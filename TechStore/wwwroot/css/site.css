@@ -15,7 +15,11 @@ html {
     }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
@@ -28,12 +32,14 @@ body {
     margin-bottom: 60px;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+.form-floating > .form-control-plaintext::placeholder,
+.form-floating > .form-control::placeholder {
     color: var(--bs-secondary-color);
     text-align: end;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+.form-floating > .form-control-plaintext:focus::placeholder,
+.form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
 
@@ -44,8 +50,8 @@ body {
 }
 
 .logo-color {
-    background: #3C3FCF;
-    background: linear-gradient(to right, #3C3FCF 0%, #CF16A1 100%);
+    background: #3c3fcf;
+    background: linear-gradient(to right, #3c3fcf 0%, #cf16a1 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -72,7 +78,7 @@ body {
     min-width: 400px;
     min-height: 450px;
     border-radius: 10px;
-    box-shadow: 0 0 8px 1px rgba(0,0,0,0.25);
+    box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.25);
     transition: all ease-in-out 0.3s;
     background-color: white;
     color: black;
@@ -112,13 +118,18 @@ product-tag-not-available {
     background-color: var(--bg-state-not-available);
 }
 
+.img-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+}
+
 .product-card:hover {
     background-color: black;
 }
 
-        .product-card:hover > .product-card-body {
-            color: white;
-        }
+    .product-card:hover > .product-card-body {
+        color: white;
+    }
 
 .product-card-img {
     height: 200px;
@@ -162,4 +173,146 @@ product-tag-not-available {
     .presentation-title {
         font-size: 32px;
     }
+}
+
+.page-header {
+    padding: 40px 24px;
+}
+
+.page-header-icon {
+    font-size: 40px;
+}
+
+.page-header-subtitle {
+    max-width: 640px;
+    opacity: 0.85;
+}
+
+.about-history-img {
+    max-height: 320px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.timeline-item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 16px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+}
+
+.timeline-marker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background-color: black;
+    color: white;
+    flex-shrink: 0;
+}
+
+.timeline-year {
+    font-size: 14px;
+}
+
+.timeline-title {
+    margin-bottom: 4px;
+}
+
+@media (min-width: 768px) {
+    .timeline {
+        flex-direction: row;
+        align-items: stretch;
+        gap: 16px;
+    }
+
+    .timeline-item {
+        flex: 1;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+.value-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+}
+
+.value-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    text-align: center;
+}
+
+.value-card-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.value-list {
+    text-align: left;
+    padding-left: 20px;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+}
+
+.team-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-photo {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.25);
+}
+
+.team-role {
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+.contact-form-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    height: 100%;
+}
+
+.contact-info-card {
+    background-color: black;
+    padding: 24px;
+}
+
+.contact-info-icon {
+    font-size: 20px;
+    margin-top: 2px;
+}
 }

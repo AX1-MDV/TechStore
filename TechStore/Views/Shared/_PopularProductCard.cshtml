@@ -1,6 +1,6 @@
 ﻿@model TechStore.Models.CardViewModel;
 
-<a asp-area="" asp-controller="Products" asp-action="Index" class="text-decoration-none">
+<a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@Model.Id" class="text-decoration-none">
     <div class="product-card">
         <span class="product-card-category">@Model.Category</span>
         <img src="@Model.ImageUrl" class="product-card-img" alt="@Model.Title">

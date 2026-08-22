@@ -6,7 +6,7 @@ namespace TechStore.Controllers
 {
     public class HomeController : Controller
     {
-        private static List<CardViewModel> _popularProducts = new List<CardViewModel>()
+        public static List<CardViewModel> _popularProducts = new List<CardViewModel>()
         {
             new CardViewModel { Id=1, Title="IPhone 16", Description="Diseño revolucionario en aluminio de grado aeroespacial, impulsado por el nuevo chip A18 para un rendimiento ultrarrápido y máxima eficiencia.", ImageUrl="/images/iphone_16.jpg", Category="Celulares", Price=1250, State="Disponible", Stock=10 },
             new CardViewModel { Id=2,Title="Asus Prime RTX 5080", Description="Lleva tu experiencia visual al extremo. Diseñada bajo la avanzada arquitectura NVIDIA Blackwell y respaldada por 16 GB de memoria ultra rápida GDDR7.", ImageUrl="/images/asus_prime_rtx_5080.jpg", Category="Tarjetas de video", Price=1500, State="Disponible", Stock=16 },

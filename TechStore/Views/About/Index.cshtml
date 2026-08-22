@@ -1,1 +1,100 @@
-﻿<h1>About</h1>
+@model TechStore.Models.AboutViewModel;
+
+@{
+    ViewData["Title"] = "Acerca de nosotros";
+}
+
+<div class="d-flex flex-column gap-5">
+
+    @await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
+    {
+        Title = "Acerca de nosotros",
+        Subtitle = "Conoce nuestra historia, nuestros principios y al equipo detrás de TechStore.",
+        Icon = "bi-shop-window"
+    })
+
+    <section class="container">
+        <div class="row align-items-center g-4">
+            <div class="col-md-6">
+                <h2 class="brand-font">Nuestra historia</h2>
+                <p>
+                    TechStore nació de la pasión por la tecnología y el deseo de ofrecer a nuestra comunidad
+                    acceso a productos de calidad, con asesoría honesta y precios justos. Desde nuestros inicios
+                    como una pequeña tienda de barrio, hemos crecido de la mano de nuestros clientes hasta
+                    convertirnos en un referente local de venta de equipos y accesorios tecnológicos.
+                </p>
+                <p>
+                    Hoy seguimos con la misma esencia: acercar la innovación a las personas, ya sea que busquen
+                    su primera laptop, el último smartphone o los componentes para armar el equipo de sus sueños.
+                </p>
+            </div>
+            <div class="col-md-6">
+                <img src="/images/asus_laptops_hero.png" class="img-fluid rounded-4 about-history-img" alt="Historia de TechStore">
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <h2 class="brand-font text-center mb-4">Nuestra línea de tiempo</h2>
+        <ol class="timeline">
+            @foreach (var milestone in Model.Timeline)
+            {
+                <li class="timeline-item">
+                    <div class="timeline-marker">
+                        <span class="timeline-year brand-font">@milestone.Year</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h5 class="timeline-title">@milestone.Title</h5>
+                        <p class="mb-0">@milestone.Description</p>
+                    </div>
+                </li>
+            }
+        </ol>
+    </section>
+
+    <section class="container">
+        <div class="value-grid">
+            <article class="value-card">
+                <i class="bi bi-bullseye value-card-icon"></i>
+                <h3 class="brand-font">Misión</h3>
+                <p class="mb-0">
+                    Ofrecer productos tecnológicos de calidad, con un servicio cercano y asesoría honesta,
+                    facilitando el acceso a la innovación para nuestros clientes.
+                </p>
+            </article>
+            <article class="value-card">
+                <i class="bi bi-eye value-card-icon"></i>
+                <h3 class="brand-font">Visión</h3>
+                <p class="mb-0">
+                    Ser la tienda de tecnología de referencia en la región, reconocida por su variedad,
+                    confiabilidad y experiencia de compra.
+                </p>
+            </article>
+            <article class="value-card">
+                <i class="bi bi-gem value-card-icon"></i>
+                <h3 class="brand-font">Valores</h3>
+                <ul class="value-list mb-0">
+                    <li>Honestidad con cada cliente</li>
+                    <li>Pasión por la tecnología</li>
+                    <li>Trabajo en equipo</li>
+                    <li>Mejora continua</li>
+                </ul>
+            </article>
+        </div>
+    </section>
+
+    <section class="container">
+        <h2 class="brand-font text-center mb-4">Nuestro equipo</h2>
+        <div class="team-grid">
+            @foreach (var member in Model.Team)
+            {
+                <div class="team-card text-center">
+                    <img src="@member.PhotoUrl" alt="Foto de @member.Name" class="team-photo">
+                    <h5 class="brand-font mt-3 mb-0">@member.Name</h5>
+                    <span class="team-role">@member.Role</span>
+                </div>
+            }
+        </div>
+    </section>
+
+</div>
