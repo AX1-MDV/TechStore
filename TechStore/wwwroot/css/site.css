@@ -147,10 +147,19 @@ product-tag-not-available {
     font-size: 12px;
 }
 
+.presentation-title {
+    font-weight: 700;
+    font-size: 48px;
+}
+
 @media (max-width: 767px) {
     .product-card {
         width: 80dvw;
         max-width: 80dvw;
         min-width: 80dvw;
+    }
+
+    .presentation-title {
+        font-size: 32px;
     }
 }
