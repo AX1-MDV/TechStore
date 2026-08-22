@@ -120,6 +120,11 @@ product-tag-not-available {
   background-color: var(--bg-state-not-available);
 }
 
+.img-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+}
+
 .product-card:hover {
   background-color: black;
 }

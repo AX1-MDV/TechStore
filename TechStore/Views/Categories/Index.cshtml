@@ -1,0 +1,35 @@
+﻿@model IEnumerable<System.Linq.IGrouping<string, TechStore.Models.CardViewModel>>
+
+@{
+    ViewData["Title"] = "Categorías";
+}
+
+<div class="container my-4">
+    <h2 class="mb-4">Productos por categoría</h2>
+
+    @foreach (var group in Model)
+    {
+        <section class="mb-5">
+            <h3 class="mb-3">@group.Key</h3>
+            <div class="row">
+                @foreach (var product in group)
+                {
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <img src="@product.ImageUrl" class="card-img-top" alt="@product.Title" style="object-fit:cover;height:160px;">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title brand-font mb-1">@product.Title</h5>
+                                <small class="text-muted">@product.Category</small>
+                                <p class="card-text text-truncate mt-2">@product.Description</p>
+                                <div class="mt-auto d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold text-success">$@product.Price</span>
+                                    <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-sm btn-outline-primary">Ver</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+    }
+</div>
