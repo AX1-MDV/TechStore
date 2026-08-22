@@ -165,9 +165,9 @@ product-tag-not-available {
 
 @media (max-width: 767px) {
     .product-card {
-        width: 80dvw;
-        max-width: 80dvw;
-        min-width: 80dvw;
+        width: 90dvw;
+        max-width: 90dvw;
+        min-width: 90dvw;
     }
 
     .presentation-title {

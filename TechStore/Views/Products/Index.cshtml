@@ -10,7 +10,7 @@
     </div>
 
     <div class="row">
-        <div class="d-flex flex-row gap-4 flex-wrap">
+        <div class="d-flex flex-row gap-4 flex-wrap align-items-center justify-content-center">
             @foreach (var product in Model)
             {
                 @await Html.PartialAsync("_PopularProductCard", product)
