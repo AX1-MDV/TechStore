@@ -1,7 +1,15 @@
+using TechStore.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<TechStoreContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("TechStoreDB"))
+);
 
 var app = builder.Build();
 
