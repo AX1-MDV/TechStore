@@ -1,0 +1,93 @@
+﻿@model TechStore.Models.Producto
+@using TechStore.Models
+@using System.Collections.Generic
+@using System.Linq
+@{
+    ViewData["Title"] = "Agregar producto";
+    var categorias = ViewBag.Categorias as IEnumerable<Categoria> ?? Enumerable.Empty<Categoria>();
+}
+
+<div class="container my-4">
+    <div class="row">
+        <div class="col-md-6">
+            <img id="previewImage" src="/images/placeholder.png" class="img-fluid img-card" alt="Vista previa" />
+        </div>
+        <div class="col-md-6">
+            <h1 class="brand-font">Nuevo producto</h1>
+
+            <form asp-controller="Products" asp-action="Agregar" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Nombre" class="form-label"></label>
+                    <input asp-for="Nombre" class="form-control" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Descripcion" class="form-label"></label>
+                    <textarea asp-for="Descripcion" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Descripcion" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Precio" class="form-label"></label>
+                    <input asp-for="Precio" class="form-control" />
+                    <span asp-validation-for="Precio" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Stock" class="form-label"></label>
+                    <input asp-for="Stock" class="form-control" />
+                    <span asp-validation-for="Stock" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Estado" class="form-label"></label>
+                    <select asp-for="Estado" class="form-select">
+                        <option value="Disponible">Disponible</option>
+                        <option value="No disponible">No disponible</option>
+                    </select>
+                    <span asp-validation-for="Estado" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="CategoriaId" class="form-label"></label>
+                    <select asp-for="CategoriaId" class="form-select">
+                        <option value="">-- Seleccione --</option>
+                        @foreach (var c in categorias)
+                        {
+                            <option value="@c.ID">@c.Nombre</option>
+                        }
+                    </select>
+                    <span asp-validation-for="CategoriaId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Imagen</label>
+                    <input type="file" name="imageFile" id="imageFile" class="form-control" accept="image/*" />
+                </div>
+
+                <div class="d-flex gap-2 mt-3">
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-outline-secondary">Volver a productos</a>
+                    <button type="submit" class="btn btn-primary">Guardar producto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        const fileInput = document.getElementById('imageFile');
+        const preview = document.getElementById('previewImage');
+        fileInput?.addEventListener('change', e => {
+            const f = e.target.files?.[0];
+            if (!f) { preview.src = '/images/placeholder.png'; return; }
+            const reader = new FileReader();
+            reader.onload = function (evt) { preview.src = evt.target.result; };
+            reader.readAsDataURL(f);
+        });
+    </script>
+}

@@ -1,19 +1,46 @@
-﻿@model IEnumerable<TechStore.Models.CardViewModel>
+﻿@model IEnumerable<TechStore.Models.Producto>
 
 @{
     ViewData["Title"] = "Productos";
+    var success = TempData["SuccessMessage"] as string;
 }
 
-<div class="container">
-    <div class="row text-center mb-3">
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Todos los productos</h2>
+        <a asp-controller="Products" asp-action="Agregar" class="btn btn-primary">Agregar producto</a>
     </div>
 
+    @if (!string.IsNullOrEmpty(success))
+    {
+        <div class="alert alert-success">@success</div>
+    }
+
     <div class="row">
-        <div class="d-flex flex-row gap-4 flex-wrap align-items-center justify-content-center">
+        <div class="d-flex flex-row gap-4 flex-wrap align-items-start justify-content-center">
             @foreach (var product in Model)
             {
-                @await Html.PartialAsync("_PopularProductCard", product)
+                var img = string.IsNullOrEmpty(product.ImagenUrl) ? "/images/placeholder.png"
+                          : (product.ImagenUrl.StartsWith("/") ? product.ImagenUrl : $"/images/{product.ImagenUrl}");
+                var tagClass = product.Estado == "Disponible" ? "product-tag-available" : "product-tag-not-available";
+
+                <a asp-controller="Products" asp-action="Details" asp-route-id="@product.ID" class="text-decoration-none">
+                    <div class="product-card">
+                        <span class="product-card-category">@product.Categoria?.Nombre</span>
+                        <img src="@img" class="product-card-img" alt="@product.Nombre" />
+                        <div class="product-card-body">
+                            <div class="d-flex flex-row justify-content-between align-items-center">
+                                <h5 class="product-card-title brand-font">@product.Nombre</h5>
+                                <span class="product-card-state-tag @tagClass">@product.Estado</span>
+                            </div>
+                            <p class="product-card-text">@product.Descripcion</p>
+                            <div class="d-flex flex-row justify-content-between align-items-center">
+                                <span class="product-card-price">$@product.Precio</span>
+                                <span class="product-card-stock">@product.Stock Disponibles</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
             }
         </div>
     </div>
