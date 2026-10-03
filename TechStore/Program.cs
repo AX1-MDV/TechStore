@@ -1,5 +1,7 @@
 using TechStore.Data;
 using Microsoft.EntityFrameworkCore;
+using TechStore.Services;
+using TechStore.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,10 @@ builder.Services.AddDbContext<TechStoreContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("TechStoreDB"))
 );
+
+// Servicios de la capa de negocio (Inyección de Dependencias)
+builder.Services.AddScoped<IProductoService, ProductoService>();
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 
 var app = builder.Build();
 
