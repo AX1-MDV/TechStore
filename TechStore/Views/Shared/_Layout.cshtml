@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -32,18 +32,66 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Productos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Categorías</a>
-                        </li>
+                        @* Productos y Categorías: cualquier usuario autenticado (los tres roles) *@
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Productos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Categorías</a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Contact" asp-action="Index">Contáctanos</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="About" asp-action="Index">Acerca de nosotros</a>
                         </li>
+                        @* Opciones de gestión: Administrador y Vendedor *@
+                        @if (User.IsInRole("Administrador") || User.IsInRole("Vendedor"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Agregar"><i class="bi bi-plus-circle"></i> Nuevo producto</a>
+                            </li>
+                        }
+                        @* Administración de usuarios: solo Administrador *@
+                        @if (User.IsInRole("Administrador"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index"><i class="bi bi-people"></i> Usuarios</a>
+                            </li>
+                        }
+                    </ul>
+                    @* Menú de la cuenta: opciones según si el usuario inició sesión *@
+                    <ul class="navbar-nav">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            var rolActual = User.IsInRole("Administrador") ? "Administrador" : User.IsInRole("Vendedor") ? "Vendedor" : "Cliente";
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person-circle"></i> @User.Identity.Name
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><span class="dropdown-item-text small text-muted">Rol: <span class="badge bg-secondary">@rolActual</span></span></li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li>
+                                        <form asp-area="" asp-controller="Cuenta" asp-action="Logout" method="post">
+                                            <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Cuenta" asp-action="Login"><i class="bi bi-box-arrow-in-right"></i> Iniciar sesión</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Cuenta" asp-action="Registro">Registrarse</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -66,10 +114,13 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @{
         var successMessage = TempData["SuccessMessage"] as string ?? string.Empty;
+        var errorMessage = TempData["ErrorMessage"] as string ?? string.Empty;
     }
     <script>
         (function(){
-            var success = '@(successMessage.Replace("'", "\\'"))';
+            // Json.Serialize evita romper el script si el mensaje trae comillas.
+            var success = @Json.Serialize(successMessage);
+            var error = @Json.Serialize(errorMessage);
             if(success){
                 Swal.fire({
                     toast: true,
@@ -81,6 +132,37 @@
                     timerProgressBar: true
                 });
             }
+
+            if(error){
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'error',
+                    title: error,
+                    showConfirmButton: false,
+                    timer: 4000,
+                    timerProgressBar: true
+                });
+            }
+
+            // Confirmación genérica: los formularios con la clase swal-confirm-form
+            // definen el texto con atributos data-swal-*.
+            $(document).on('submit', 'form.swal-confirm-form', function(e){
+                e.preventDefault();
+                var form = this;
+                Swal.fire({
+                    title: form.dataset.swalTitle || '¿Confirmar acción?',
+                    text: form.dataset.swalText || '',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: form.dataset.swalConfirm || 'Sí, continuar',
+                    cancelButtonText: 'Cancelar'
+                }).then(function(result){
+                    if(result.isConfirmed){
+                        form.submit();
+                    }
+                });
+            });
 
             // Confirmación de eliminación para formularios con la clase swal-delete-form
             $(document).on('submit', 'form.swal-delete-form', function(e){

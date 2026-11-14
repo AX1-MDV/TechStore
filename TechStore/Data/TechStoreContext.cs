@@ -1,9 +1,13 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TechStore.Models;
 
 namespace TechStore.Data
 {
-    public class TechStoreContext : DbContext
+    // Hereda de IdentityDbContext<IdentityUser> para que Identity guarde los usuarios
+    // y roles en la misma base de datos (tablas AspNet*).
+    public class TechStoreContext : IdentityDbContext<IdentityUser>
     {
         public TechStoreContext(DbContextOptions<TechStoreContext> options) : base(options) { }
 
@@ -13,6 +17,7 @@ namespace TechStore.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Necesario: configura las tablas de Identity.
             base.OnModelCreating(modelBuilder);
 
             // Relación uno a muchos: una categoría tiene varios productos

@@ -1,11 +1,14 @@
 ﻿using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TechStore.Data;
 using TechStore.Models;
 
 namespace TechStore.Controllers
 {
+    // La consulta de productos por categoría requiere iniciar sesión con cualquiera de los roles.
+    [Authorize(Roles = "Administrador,Vendedor,Cliente")]
     public class CategoriesController : Controller
     {
         private readonly TechStoreContext _context;

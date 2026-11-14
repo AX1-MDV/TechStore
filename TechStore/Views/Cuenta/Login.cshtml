@@ -1,0 +1,72 @@
+@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Iniciar sesión";
+    ViewData["AuthMode"] = "login";
+    Layout = "_AuthLayout";
+}
+
+<div class="auth-form">
+    <h1 class="auth-title">Bienvenido de nuevo</h1>
+    <p class="auth-subtitle">Ingresa con tu usuario o correo para continuar.</p>
+
+    <form asp-controller="Cuenta" asp-action="Login" method="post" novalidate>
+        <input type="hidden" asp-for="ReturnUrl" />
+
+        @* Errores del servidor: credenciales incorrectas o cuenta bloqueada *@
+        <div asp-validation-summary="ModelOnly" class="auth-summary"></div>
+
+        <div class="auth-fields">
+            <div>
+                <label asp-for="UsuarioOCorreo" class="auth-label"></label>
+                <input asp-for="UsuarioOCorreo" class="auth-input" autocomplete="username"
+                       placeholder="usuario o correo@ejemplo.com" autofocus />
+                <span asp-validation-for="UsuarioOCorreo" class="auth-error"></span>
+            </div>
+
+            <div>
+                <label asp-for="Password" class="auth-label"></label>
+                <div class="auth-input-wrap">
+                    <input asp-for="Password" class="auth-input auth-input--password"
+                           autocomplete="current-password" placeholder="Tu contraseña" />
+                    <button type="button" class="auth-eye" data-toggle-password="Password" aria-label="Mostrar contraseña">
+                        <i class="bi bi-eye"></i>
+                    </button>
+                </div>
+                <span asp-validation-for="Password" class="auth-error"></span>
+            </div>
+
+            <div class="auth-row">
+                <label class="auth-check">
+                    <input asp-for="Recordarme" />
+                    Recuérdame
+                </label>
+                <button type="button" class="auth-link" id="btnOlvide" aria-expanded="false" aria-controls="ayudaClave">
+                    ¿Olvidaste tu contraseña?
+                </button>
+            </div>
+            <p id="ayudaClave" class="auth-help" hidden>
+                Por ahora, comunícate con un administrador de TechStore para que te ayude a recuperar el acceso a tu cuenta.
+            </p>
+
+            <button type="submit" class="auth-btn">Ingresar</button>
+        </div>
+    </form>
+
+    <p class="auth-switch">
+        ¿Aún no tienes cuenta?
+        <a asp-controller="Cuenta" asp-action="Registro" class="auth-link">Crear cuenta</a>
+    </p>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        // Muestra u oculta la ayuda de "¿Olvidaste tu contraseña?".
+        document.getElementById('btnOlvide').addEventListener('click', function () {
+            var ayuda = document.getElementById('ayudaClave');
+            ayuda.hidden = !ayuda.hidden;
+            this.setAttribute('aria-expanded', String(!ayuda.hidden));
+        });
+    </script>
+}
