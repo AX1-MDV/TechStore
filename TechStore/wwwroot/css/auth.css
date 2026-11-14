@@ -1,0 +1,442 @@
+/* ===================== Login y Registro (_AuthLayout) ===================== */
+:root {
+    --auth-ink: #16181c;
+    --auth-muted: #64748b;
+    --auth-label: #334155;
+    --auth-input-bg: #f1f5f9;
+    --auth-input-hover: #e2e8f0;
+    --auth-accent: #3c3fcf;
+    --auth-accent-2: #cf16a1;
+    --auth-focus: rgba(60, 63, 207, 0.25);
+    --auth-error: #e11d48;
+    --auth-surface: #ffffff;
+    --auth-panel-bg: #f3f2fb;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+.auth-body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--auth-ink);
+    background: var(--auth-surface);
+}
+
+/* Pantalla completa: formulario y panel ocupan media pantalla cada uno */
+.auth-shell {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+}
+
+.auth-shell--registro .auth-panel {
+    order: -1; /* En Registro el panel pasa a la izquierda */
+}
+
+.auth-back {
+    position: absolute;
+    top: 20px;
+    left: 24px;
+    z-index: 5;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--auth-muted);
+    text-decoration: none;
+}
+
+.auth-back:hover {
+    color: var(--auth-ink);
+}
+
+/* En Registro el panel está a la izquierda: el enlace se mueve al lado del formulario */
+.auth-shell--registro .auth-back {
+    left: auto;
+    right: 24px;
+}
+
+.auth-form-side {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 72px 48px 40px;
+}
+
+.auth-form {
+    width: 100%;
+    max-width: 420px;
+    animation: auth-fade 0.6s ease both;
+}
+
+.auth-title {
+    margin: 0;
+    font-size: 1.9rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.auth-subtitle {
+    margin: 8px 0 0;
+    font-size: 0.875rem;
+    color: var(--auth-muted);
+}
+
+.auth-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 32px;
+}
+
+/* ---------- Campos ---------- */
+.auth-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--auth-label);
+}
+
+.auth-input-wrap {
+    position: relative;
+}
+
+.auth-input {
+    width: 100%;
+    padding: 11px 14px;
+    font: inherit;
+    font-size: 0.875rem;
+    color: var(--auth-ink);
+    background: var(--auth-input-bg);
+    border: 1px solid transparent;
+    border-radius: 12px;
+    outline: none;
+    transition: background 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+
+.auth-input::placeholder {
+    color: #94a3b8;
+}
+
+.auth-input:hover {
+    background: var(--auth-input-hover);
+}
+
+.auth-input:focus {
+    background: #fff;
+    box-shadow: 0 0 0 3px var(--auth-focus);
+}
+
+.auth-input--password {
+    padding-right: 44px;
+}
+
+/* Clase que agrega la validación de ASP.NET cuando el campo tiene error */
+.auth-input.input-validation-error {
+    border-color: #fb7185;
+}
+
+.auth-input.input-validation-error:focus {
+    box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.12);
+}
+
+.auth-eye {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 44px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    color: #94a3b8;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.auth-eye:hover {
+    color: var(--auth-label);
+}
+
+.auth-error {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.75rem;
+    color: var(--auth-error);
+}
+
+.auth-hint {
+    margin-top: 4px;
+    font-size: 0.75rem;
+    color: var(--auth-muted);
+}
+
+/* Resumen de errores del servidor (credenciales incorrectas, cuenta bloqueada...) */
+.auth-summary {
+    margin-top: 24px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    color: #9f1239;
+    background: #fff1f2;
+    border-radius: 12px;
+}
+
+.auth-summary ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.auth-summary.validation-summary-valid {
+    display: none;
+}
+
+/* ---------- Opciones y botón ---------- */
+.auth-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.875rem;
+}
+
+.auth-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #475569;
+    cursor: pointer;
+}
+
+.auth-check input {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--auth-accent);
+}
+
+.auth-link {
+    padding: 0;
+    font: inherit;
+    font-weight: 600;
+    color: var(--auth-accent);
+    background: none;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.auth-link:hover {
+    color: var(--auth-accent-2);
+}
+
+.auth-help {
+    margin: 0;
+    padding: 8px 12px;
+    font-size: 0.75rem;
+    color: var(--auth-muted);
+    background: #f8fafc;
+    border-radius: 12px;
+}
+
+.auth-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 11px;
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--auth-ink);
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(22, 24, 28, 0.25);
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.auth-btn:hover {
+    background: #000;
+}
+
+.auth-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px var(--auth-focus);
+}
+
+.auth-switch {
+    margin-top: 32px;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--auth-muted);
+}
+
+/* ---------- Panel de marca ---------- */
+.auth-panel {
+    position: relative;
+    isolation: isolate;
+    margin: 12px;
+    padding: 56px;
+    overflow: hidden;
+    border-radius: 28px;
+    background: var(--auth-panel-bg);
+    animation: auth-panel-in-right 0.7s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+.auth-shell--registro .auth-panel {
+    animation-name: auth-panel-in-left;
+}
+
+.auth-blob {
+    position: absolute;
+    z-index: -1;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    filter: blur(90px);
+}
+
+.auth-blob--1 { top: -15%; left: -10%; width: 70%; background: rgba(60, 63, 207, 0.45); }
+.auth-blob--2 { top: 30%; right: -15%; width: 55%; background: rgba(185, 198, 255, 0.8); }
+.auth-blob--3 { bottom: -25%; left: 15%; width: 75%; background: rgba(207, 22, 161, 0.35); }
+.auth-blob--4 { bottom: -15%; right: -10%; width: 45%; background: rgba(246, 199, 228, 0.8); }
+
+.auth-panel-fade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.55), transparent 60%);
+}
+
+.auth-panel-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.auth-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.auth-brand-logo {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    font-size: 1.6rem;
+    color: var(--auth-accent);
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 10px 25px rgba(22, 24, 28, 0.15);
+}
+
+.auth-brand-name {
+    margin: 0;
+    font-family: "Zen Dots", sans-serif;
+    font-size: 1.15rem;
+}
+
+.auth-brand-sub {
+    margin: 0;
+    font-size: 0.75rem;
+    color: rgba(22, 24, 28, 0.6);
+}
+
+.auth-panel-text {
+    animation: auth-fade 0.7s ease 0.2s both;
+}
+
+.auth-panel-kicker {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba(22, 24, 28, 0.7);
+}
+
+.auth-panel-title {
+    max-width: 30rem;
+    margin: 12px 0 0;
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+}
+
+.auth-panel-footer {
+    margin: 24px 0 0;
+    font-size: 0.75rem;
+    color: rgba(22, 24, 28, 0.55);
+}
+
+/* ---------- Animaciones ---------- */
+@keyframes auth-fade {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+}
+
+@keyframes auth-panel-in-right {
+    from { opacity: 0; transform: translateX(-40px); }
+    to { opacity: 1; transform: none; }
+}
+
+@keyframes auth-panel-in-left {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .auth-form,
+    .auth-panel,
+    .auth-panel-text {
+        animation: none;
+    }
+}
+
+/* ---------- Pantallas chicas: el panel queda como encabezado compacto ---------- */
+@media (max-width: 767px) {
+    .auth-shell {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        min-height: 100vh;
+    }
+
+    .auth-panel,
+    .auth-shell--registro .auth-panel {
+        order: -1;
+        padding: 20px 24px;
+        animation: none;
+    }
+
+    .auth-panel-text {
+        display: none;
+    }
+
+    .auth-back,
+    .auth-shell--registro .auth-back {
+        top: 34px;
+        left: auto;
+        right: 32px;
+    }
+
+    .auth-back span {
+        display: none;
+    }
+
+    .auth-form-side {
+        align-items: flex-start;
+        padding: 32px 16px 40px;
+    }
+
+    .auth-title {
+        font-size: 1.6rem;
+    }
+}

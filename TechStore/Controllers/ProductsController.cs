@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,10 @@ using TechStore.Services.Interfaces;
 
 namespace TechStore.Controllers
 {
+    // Solo usuarios autenticados con alguno de los tres roles pueden consultar productos.
+    // Administrador: acceso completo. Vendedor: consultar, agregar y editar.
+    // Cliente: únicamente consultar.
+    [Authorize(Roles = "Administrador,Vendedor,Cliente")]
     public class ProductsController : Controller
     {
         private readonly IProductoService _productoService;
@@ -53,6 +58,7 @@ namespace TechStore.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Administrador,Vendedor")]
         public async Task<IActionResult> Agregar()
         {
             ViewBag.Categorias = (await _categoriaService.ObtenerTodasAsync()).OrderBy(c => c.Nombre).ToList();
@@ -61,6 +67,7 @@ namespace TechStore.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador,Vendedor")]
         public async Task<IActionResult> Agregar(Producto producto, IFormFile? imageFile)
         {
             if (!ModelState.IsValid)
@@ -85,6 +92,7 @@ namespace TechStore.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Administrador,Vendedor")]
         public async Task<IActionResult> Editar(int id)
         {
             var producto = await _productoService.ObtenerPorIdAsync(id);
@@ -95,6 +103,7 @@ namespace TechStore.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador,Vendedor")]
         public async Task<IActionResult> Editar(int id, Producto producto, IFormFile? imageFile)
         {
             if (id != producto.ID) return NotFound();
@@ -138,6 +147,8 @@ namespace TechStore.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        // Eliminar productos es exclusivo del Administrador.
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Eliminar(int id)
         {
             var producto = await _productoService.ObtenerPorIdAsync(id);

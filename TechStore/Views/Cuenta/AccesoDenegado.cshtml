@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Acceso denegado";
+    var rol = User.IsInRole("Administrador") ? "Administrador" : User.IsInRole("Vendedor") ? "Vendedor" : "Cliente";
+}
+
+<div class="auth-page">
+    <div class="auth-card">
+        <div class="auth-header auth-header-denied">
+            <i class="bi bi-shield-lock auth-header-icon"></i>
+            <h1 class="brand-font">Acceso denegado</h1>
+            <p>No tienes permisos para acceder a esta sección.</p>
+        </div>
+
+        <div class="auth-body text-center">
+            <p class="mb-2">
+                Tu rol actual <span class="badge bg-secondary">@rol</span> no permite realizar esta operación.
+            </p>
+            <p class="text-muted">
+                Si crees que necesitas acceso, comunícate con un administrador.
+            </p>
+
+            <div class="d-flex flex-wrap gap-2 justify-content-center mt-4">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-auth"><i class="bi bi-house"></i> Ir al inicio</a>
+                <a asp-controller="Products" asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-bag"></i> Ver productos</a>
+            </div>
+        </div>
+    </div>
+</div>
